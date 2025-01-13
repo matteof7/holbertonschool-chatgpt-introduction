@@ -4,43 +4,45 @@ class Checkbook:
 
     def deposit(self, amount):
         if amount <= 0:
-            print("Invalid amount. Deposit must be positive.")
+            print("Error: Deposit amount must be positive.")
             return
         self.balance += amount
         print(f"Deposited ${amount:.2f}")
-        self.get_balance()
+        print(f"Current Balance: ${self.balance:.2f}")
 
     def withdraw(self, amount):
         if amount <= 0:
-            print("Invalid amount. Withdrawal must be positive.")
+            print("Error: Withdrawal amount must be positive.")
             return
         if amount > self.balance:
-            print("Insufficient funds to complete the withdrawal.")
+            print("Error: Insufficient funds to complete the withdrawal.")
         else:
             self.balance -= amount
             print(f"Withdrew ${amount:.2f}")
-            self.get_balance()
+            print(f"Current Balance: ${self.balance:.2f}")
 
     def get_balance(self):
         print(f"Current Balance: ${self.balance:.2f}")
 
+def get_float_input(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Error: Please enter a valid number.")
+
 def main():
     cb = Checkbook()
     while True:
-        print("\nAvailable actions: deposit, withdraw, balance, exit")
-        action = input("What would you like to do? ").lower().strip()
+        action = input("What would you like to do? (deposit, withdraw, balance, exit): ").lower()
         if action == 'exit':
-            print("Thank you for using the Checkbook. Goodbye!")
             break
-        elif action in ['deposit', 'withdraw']:
-            try:
-                amount = float(input(f"Enter the amount to {action}: $"))
-                if action == 'deposit':
-                    cb.deposit(amount)
-                else:
-                    cb.withdraw(amount)
-            except ValueError:
-                print("Invalid input. Please enter a valid number.")
+        elif action == 'deposit':
+            amount = get_float_input("Enter the amount to deposit: $")
+            cb.deposit(amount)
+        elif action == 'withdraw':
+            amount = get_float_input("Enter the amount to withdraw: $")
+            cb.withdraw(amount)
         elif action == 'balance':
             cb.get_balance()
         else:
