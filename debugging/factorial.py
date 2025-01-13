@@ -5,8 +5,14 @@ def factorial(n):
     result = 1
     while n > 1:
         result *= n
-        n -= 1  # Correction : décrémenter n pour éviter une boucle infinie
+        n -= 1  # Décrémente n à chaque itération
     return result
 
-f = factorial(int(sys.argv[1]))
-print(f)
+if len(sys.argv) > 1:
+    try:
+        f = factorial(int(sys.argv[1]))
+        print(f)
+    except ValueError:
+        print("Veuillez entrer un nombre entier positif.")
+else:
+    print("Veuillez fournir un argument numérique.")
